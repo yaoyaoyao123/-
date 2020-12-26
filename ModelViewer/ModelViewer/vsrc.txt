@@ -1,0 +1,17 @@
+#version 330 core
+uniform mat4 camMatrix,proMatrix,modMatrix;
+layout (location = 0) in vec3 aPosition;
+layout (location = 1) in vec2 vTexCoord;
+layout (location = 2) in vec3 aNormal;
+
+smooth out vec3 FragPos;
+out vec3 Normal;
+out vec2 texCoord;
+
+void main(void)
+{
+	gl_Position =proMatrix *camMatrix *modMatrix *vec4(aPosition,1);
+	texCoord = vTexCoord;
+	FragPos = vec3(modMatrix *vec4(aPosition,1));
+	Normal = mat3(transpose(inverse(modMatrix)))*aNormal;
+}
